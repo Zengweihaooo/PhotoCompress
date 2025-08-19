@@ -1,0 +1,29 @@
+{
+  "name": "photo-compress-location-sync",
+  "version": "1.0.0",
+  "description": "A web application to compress digital camera photos and sync location information from phone photos",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "serve": "npx http-server -p 8000 -o",
+    "dev": "npx live-server --port=8000"
+  },
+  "keywords": [
+    "photo",
+    "compress",
+    "location",
+    "sync",
+    "exif",
+    "gps"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "live-server": "^1.2.2"
+  },
+  "dependencies": {
+    "exif-js": "^2.3.0",
+    "piexifjs": "^1.0.6"
+  }
+}

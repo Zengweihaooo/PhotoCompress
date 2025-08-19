@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Compress & Location Sync</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-camera"></i> Photo Compress & Location Sync</h1>
+                <p>压缩数码相机照片并同步手机照片的位置信息</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Upload Section -->
+            <section class="upload-section">
+                <div class="upload-container">
+                    <h2><i class="fas fa-cloud-upload-alt"></i> 上传照片</h2>
+                    <div class="upload-areas">
+                        <!-- Camera Photos -->
+                        <div class="upload-area" id="camera-upload">
+                            <div class="upload-box">
+                                <i class="fas fa-camera fa-3x"></i>
+                                <h3>数码相机照片</h3>
+                                <p>拖拽或点击上传需要压缩的相机照片</p>
+                                <div class="upload-buttons">
+                                    <input type="file" id="camera-files" multiple accept="image/*" hidden>
+                                    <input type="file" id="camera-folder" webkitdirectory directory multiple hidden>
+                                    <button class="upload-btn" onclick="document.getElementById('camera-files').click()">
+                                        <i class="fas fa-images"></i> 选择文件
+                                    </button>
+                                    <button class="upload-btn secondary" onclick="document.getElementById('camera-folder').click()">
+                                        <i class="fas fa-folder-open"></i> 选择文件夹
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="file-list" id="camera-file-list"></div>
+                        </div>
+
+                        <!-- Phone Photos -->
+                        <div class="upload-area" id="phone-upload">
+                            <div class="upload-box">
+                                <i class="fas fa-mobile-alt fa-3x"></i>
+                                <h3>手机照片</h3>
+                                <p>上传有位置信息的手机照片用于同步</p>
+                                <div class="upload-buttons">
+                                    <input type="file" id="phone-files" multiple accept="image/*" hidden>
+                                    <input type="file" id="phone-folder" webkitdirectory directory multiple hidden>
+                                    <button class="upload-btn" onclick="document.getElementById('phone-files').click()">
+                                        <i class="fas fa-images"></i> 选择文件
+                                    </button>
+                                    <button class="upload-btn secondary" onclick="document.getElementById('phone-folder').click()">
+                                        <i class="fas fa-folder-open"></i> 选择文件夹
+                                    </button>
+                                    <button class="upload-btn icloud-btn" onclick="app.showICloudInstructions()">
+                                        <i class="fab fa-icloud"></i> iCloud照片
+                                    </button>
+                                </div>
+                                <div class="icloud-hint">
+                                    <i class="fas fa-info-circle"></i>
+                                    <span>Mac用户可以直接访问Photos应用中的iCloud照片</span>
+                                </div>
+                            </div>
+                            <div class="file-list" id="phone-file-list"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Safety Notice -->
+            <section class="safety-section">
+                <div class="safety-container">
+                    <div class="safety-notice">
+                        <i class="fas fa-shield-alt"></i>
+                        <div class="safety-content">
+                            <h3>🔒 安全保障</h3>
+                            <p><strong>您的原文件绝对安全！</strong> 本应用只读取文件进行压缩，<span class="highlight">不会删除、修改或覆盖任何原始文件</span>。压缩后的文件需要您手动下载保存。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section class="settings-section">
+                <div class="settings-container">
+                    <h2><i class="fas fa-cog"></i> 压缩设置</h2>
+                    <div class="settings-grid">
+                        <div class="setting-item">
+                            <label for="quality">压缩质量</label>
+                            <div class="slider-container">
+                                <input type="range" id="quality" min="10" max="100" value="80" class="slider">
+                                <span id="quality-value">80%</span>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <label for="target-size">目标文件大小 (可选)</label>
+                            <div class="size-input-container">
+                                <input type="number" id="target-size" min="0.1" max="50" step="0.1" placeholder="不限制">
+                                <select id="size-unit">
+                                    <option value="MB">MB</option>
+                                    <option value="KB">KB</option>
+                                </select>
+                            </div>
+                            <small>留空则按质量压缩，填写则优先按大小压缩</small>
+                        </div>
+                        <div class="setting-item">
+                            <label for="max-width">最大宽度 (px)</label>
+                            <input type="number" id="max-width" value="1920" min="100" max="4000">
+                        </div>
+                        <div class="setting-item">
+                            <label for="max-height">最大高度 (px)</label>
+                            <input type="number" id="max-height" value="1080" min="100" max="4000">
+                        </div>
+                        <div class="setting-item">
+                            <label for="format">输出格式</label>
+                            <select id="format">
+                                <option value="jpeg">JPEG</option>
+                                <option value="webp">WebP</option>
+                                <option value="png">PNG</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <label for="output-naming">输出文件命名</label>
+                            <select id="output-naming">
+                                <option value="suffix">添加后缀 (XX_compressed)</option>
+                                <option value="parent-folder">保存到上级目录 (../XX_compressed)</option>
+                                <option value="prefix">添加前缀 (compressed_XX)</option>
+                                <option value="folder">保存到compressed文件夹</option>
+                                <option value="original">保持原名 (仅下载)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Processing Section -->
+            <section class="processing-section">
+                <div class="processing-container">
+                    <h2><i class="fas fa-magic"></i> 处理选项</h2>
+                    <div class="processing-options">
+                        <div class="option-card">
+                            <h3><i class="fas fa-compress-alt"></i> 仅压缩</h3>
+                            <p>只压缩数码相机照片，保持原有EXIF信息</p>
+                            <button class="action-btn primary" id="compress-only-btn">
+                                <i class="fas fa-play"></i> 开始压缩
+                            </button>
+                        </div>
+                        <div class="option-card">
+                            <h3><i class="fas fa-map-marker-alt"></i> 压缩 + 位置同步</h3>
+                            <p>压缩照片并根据拍摄时间匹配手机照片的位置信息</p>
+                            <button class="action-btn secondary" id="compress-sync-btn">
+                                <i class="fas fa-play"></i> 压缩并同步位置
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Progress Section -->
+            <section class="progress-section" id="progress-section" style="display: none;">
+                <div class="progress-container">
+                    <h2><i class="fas fa-tasks"></i> 处理进度</h2>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <div class="progress-text" id="progress-text">准备中...</div>
+                    <div class="processing-log" id="processing-log"></div>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section class="results-section" id="results-section" style="display: none;">
+                <div class="results-container">
+                    <h2><i class="fas fa-check-circle"></i> 处理结果</h2>
+                    <div class="results-stats">
+                        <div class="stat-item">
+                            <span class="stat-number" id="processed-count">0</span>
+                            <span class="stat-label">已处理照片</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="compression-ratio">0%</span>
+                            <span class="stat-label">压缩比例</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="synced-count">0</span>
+                            <span class="stat-label">同步位置</span>
+                        </div>
+                    </div>
+                    <div class="download-section">
+                        <button class="action-btn primary" id="download-all-btn">
+                            <i class="fas fa-download"></i> 下载所有处理后的照片
+                        </button>
+                    </div>
+                    <div class="results-grid" id="results-grid"></div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2024 Photo Compress & Location Sync. 保留所有权利。</p>
+        </footer>
+    </div>
+
+    <!-- iCloud Instructions Modal -->
+    <div id="icloud-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fab fa-icloud"></i> 访问iCloud照片指南</h2>
+                <button class="close-modal" onclick="app.closeICloudModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="instruction-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>打开Finder</h3>
+                            <p>在Mac上打开Finder应用</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>导航到Photos库</h3>
+                            <p>路径：<code>~/Pictures/Photos Library.photoslibrary</code></p>
+                            <p>或者直接在Photos应用中导出照片</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>推荐方法：使用Photos应用</h3>
+                            <p>1. 打开Photos应用</p>
+                            <p>2. 选择最近的照片（有GPS信息的）</p>
+                            <p>3. 文件 → 导出 → 导出未修改的原件</p>
+                            <p>4. 选择一个临时文件夹</p>
+                            <p>5. 回到这里选择该文件夹</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h3>智能时间范围选择</h3>
+                            <p>建议导出相机照片拍摄时间前后<strong>1-2天</strong>的手机照片，这样匹配效果最好。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="quick-actions">
+                    <button class="action-btn primary" onclick="app.openPhotosApp()">
+                        <i class="fas fa-external-link-alt"></i> 打开Photos应用
+                    </button>
+                    <button class="action-btn secondary" onclick="app.closeICloudModal()">
+                        知道了
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load browser-image-compression library -->
+    <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
