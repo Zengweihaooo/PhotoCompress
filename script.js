@@ -594,6 +594,66 @@ class PhotoCompressApp {
             this.logMessage('请手动打开Photos应用', 'info');
         }
     }
+
+    openICloudWeb() {
+        // 在新标签页中打开iCloud.com
+        window.open('https://www.icloud.com/photos/', '_blank');
+    }
+
+    setFujiPreset(presetType) {
+        // 移除所有活动状态
+        document.querySelectorAll('.preset-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+
+        // 设置当前按钮为活动状态
+        event.target.classList.add('active');
+
+        const qualitySlider = document.getElementById('quality');
+        const maxWidth = document.getElementById('max-width');
+        const maxHeight = document.getElementById('max-height');
+        const targetSize = document.getElementById('target-size');
+        const sizeUnit = document.getElementById('size-unit');
+        const format = document.getElementById('format');
+
+        switch (presetType) {
+            case 'web':
+                // 网络分享 - 小文件，快速加载
+                qualitySlider.value = 75;
+                maxWidth.value = 1920;
+                maxHeight.value = 1280;
+                targetSize.value = 500;
+                sizeUnit.value = 'KB';
+                format.value = 'jpeg';
+                this.logMessage('已应用网络分享预设: 适合社交媒体、网站展示', 'info');
+                break;
+
+            case 'storage':
+                // 存储备份 - 高质量，适合长期保存
+                qualitySlider.value = 90;
+                maxWidth.value = 3840; // 4K宽度
+                maxHeight.value = 2560;
+                targetSize.value = '';
+                format.value = 'jpeg';
+                this.logMessage('已应用存储备份预设: 高质量保存，适合打印和后期处理', 'info');
+                break;
+
+            case 'balanced':
+            default:
+                // 平衡推荐 - 质量与大小的最佳平衡
+                qualitySlider.value = 85;
+                maxWidth.value = 2400;
+                maxHeight.value = 1600;
+                targetSize.value = 1.5;
+                sizeUnit.value = 'MB';
+                format.value = 'jpeg';
+                this.logMessage('已应用平衡推荐预设: 富士X-T3最佳平衡设置', 'info');
+                break;
+        }
+
+        // 更新质量显示
+        this.updateQualityDisplay();
+    }
 }
 
 // Initialize the application

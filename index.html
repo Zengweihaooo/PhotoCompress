@@ -63,9 +63,21 @@
                                         <i class="fab fa-icloud"></i> iCloud照片
                                     </button>
                                 </div>
-                                <div class="icloud-hint">
-                                    <i class="fas fa-info-circle"></i>
-                                    <span>Mac用户可以直接访问Photos应用中的iCloud照片</span>
+                                <div class="simple-methods">
+                                    <div class="method-card airdrop">
+                                        <i class="fas fa-wifi"></i>
+                                        <div>
+                                            <strong>最简单：AirDrop</strong>
+                                            <p>iPhone选择照片 → 分享 → AirDrop到Mac</p>
+                                        </div>
+                                    </div>
+                                    <div class="method-card icloud-web">
+                                        <i class="fas fa-cloud"></i>
+                                        <div>
+                                            <strong>网页版：iCloud.com</strong>
+                                            <p>浏览器打开iCloud.com → 照片 → 下载</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="file-list" id="phone-file-list"></div>
@@ -95,8 +107,19 @@
                         <div class="setting-item">
                             <label for="quality">压缩质量</label>
                             <div class="slider-container">
-                                <input type="range" id="quality" min="10" max="100" value="80" class="slider">
-                                <span id="quality-value">80%</span>
+                                <input type="range" id="quality" min="10" max="100" value="85" class="slider">
+                                <span id="quality-value">85%</span>
+                            </div>
+                            <div class="camera-presets">
+                                <button class="preset-btn" onclick="app.setFujiPreset('web')">
+                                    <i class="fas fa-globe"></i> 网络分享
+                                </button>
+                                <button class="preset-btn" onclick="app.setFujiPreset('storage')">
+                                    <i class="fas fa-hdd"></i> 存储备份
+                                </button>
+                                <button class="preset-btn active" onclick="app.setFujiPreset('balanced')">
+                                    <i class="fas fa-balance-scale"></i> 平衡推荐
+                                </button>
                             </div>
                         </div>
                         <div class="setting-item">
@@ -112,11 +135,13 @@
                         </div>
                         <div class="setting-item">
                             <label for="max-width">最大宽度 (px)</label>
-                            <input type="number" id="max-width" value="1920" min="100" max="4000">
+                            <input type="number" id="max-width" value="2400" min="100" max="6240">
+                            <small>富士X-T3原始: 6240x4160</small>
                         </div>
                         <div class="setting-item">
                             <label for="max-height">最大高度 (px)</label>
-                            <input type="number" id="max-height" value="1080" min="100" max="4000">
+                            <input type="number" id="max-height" value="1600" min="100" max="4160">
+                            <small>推荐保持3:2比例</small>
                         </div>
                         <div class="setting-item">
                             <label for="format">输出格式</label>
@@ -217,44 +242,62 @@
                 <button class="close-modal" onclick="app.closeICloudModal()">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="instruction-steps">
-                    <div class="step">
-                        <div class="step-number">1</div>
-                        <div class="step-content">
-                            <h3>打开Finder</h3>
-                            <p>在Mac上打开Finder应用</p>
+                <div class="simple-methods-modal">
+                    <div class="method-option">
+                        <div class="method-icon airdrop-icon">
+                            <i class="fas fa-wifi"></i>
+                        </div>
+                        <div class="method-details">
+                            <h3>🚀 最简单：AirDrop (推荐)</h3>
+                            <ol>
+                                <li>在iPhone上打开照片应用</li>
+                                <li>选择有GPS信息的照片 (通常是最近拍的)</li>
+                                <li>点击分享按钮 → 选择AirDrop → 选择你的Mac</li>
+                                <li>照片会自动保存到Mac的下载文件夹</li>
+                                <li>回到这里上传下载文件夹中的照片</li>
+                            </ol>
+                            <div class="pro-tip">
+                                <i class="fas fa-lightbulb"></i>
+                                <span>小贴士：选择相机拍摄时间前后几小时内的iPhone照片效果最佳</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="step">
-                        <div class="step-number">2</div>
-                        <div class="step-content">
-                            <h3>导航到Photos库</h3>
-                            <p>路径：<code>~/Pictures/Photos Library.photoslibrary</code></p>
-                            <p>或者直接在Photos应用中导出照片</p>
+
+                    <div class="method-option">
+                        <div class="method-icon icloud-icon">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <div class="method-details">
+                            <h3>🌐 网页版：iCloud.com</h3>
+                            <ol>
+                                <li>在浏览器中打开 <a href="https://www.icloud.com" target="_blank">iCloud.com</a></li>
+                                <li>登录你的Apple ID</li>
+                                <li>点击"照片"</li>
+                                <li>选择最近的照片 → 点击下载按钮</li>
+                                <li>回到这里上传下载的照片</li>
+                            </ol>
                         </div>
                     </div>
-                    <div class="step">
-                        <div class="step-number">3</div>
-                        <div class="step-content">
-                            <h3>推荐方法：使用Photos应用</h3>
-                            <p>1. 打开Photos应用</p>
-                            <p>2. 选择最近的照片（有GPS信息的）</p>
-                            <p>3. 文件 → 导出 → 导出未修改的原件</p>
-                            <p>4. 选择一个临时文件夹</p>
-                            <p>5. 回到这里选择该文件夹</p>
+
+                    <div class="method-option">
+                        <div class="method-icon auto-icon">
+                            <i class="fas fa-magic"></i>
                         </div>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">4</div>
-                        <div class="step-content">
-                            <h3>智能时间范围选择</h3>
-                            <p>建议导出相机照片拍摄时间前后<strong>1-2天</strong>的手机照片，这样匹配效果最好。</p>
+                        <div class="method-details">
+                            <h3>⚡ 自动同步 (如果已开启)</h3>
+                            <p>如果你的Mac已经开启了iCloud照片同步：</p>
+                            <ol>
+                                <li>直接在Finder中打开 <code>~/Pictures</code></li>
+                                <li>照片会自动同步到这里</li>
+                                <li>选择最近的照片文件夹上传</li>
+                            </ol>
                         </div>
                     </div>
                 </div>
+                
                 <div class="quick-actions">
-                    <button class="action-btn primary" onclick="app.openPhotosApp()">
-                        <i class="fas fa-external-link-alt"></i> 打开Photos应用
+                    <button class="action-btn primary" onclick="app.openICloudWeb()">
+                        <i class="fas fa-external-link-alt"></i> 打开iCloud.com
                     </button>
                     <button class="action-btn secondary" onclick="app.closeICloudModal()">
                         知道了
@@ -269,3 +312,5 @@
     <script src="script.js"></script>
 </body>
 </html>
+
+
