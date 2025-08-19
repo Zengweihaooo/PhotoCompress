@@ -13,7 +13,26 @@
         <header class="header">
             <div class="header-content">
                 <h1><i class="fas fa-camera"></i> Photo Compress & Location Sync</h1>
-                <p>压缩数码相机照片并同步手机照片的位置信息</p>
+                <p id="header-description">压缩数码相机照片并同步手机照片的位置信息</p>
+                <div id="device-info" class="device-info" style="display: none;">
+                    <div class="info-card">
+                        <i class="fas fa-info-circle"></i>
+                        <span id="device-message"></span>
+                    </div>
+                </div>
+                <div id="qr-section" class="qr-section" style="display: none;">
+                    <div class="qr-container">
+                        <div class="qr-header">
+                            <i class="fas fa-qrcode"></i>
+                            <span>手机扫描二维码快速访问</span>
+                        </div>
+                        <div id="qr-code" class="qr-code"></div>
+                        <div class="qr-url" id="qr-url"></div>
+                        <button class="refresh-qr-btn" onclick="app.refreshQRCode()">
+                            <i class="fas fa-sync-alt"></i> 刷新二维码
+                        </button>
+                    </div>
+                </div>
             </div>
         </header>
 
@@ -33,6 +52,10 @@
                                 <div class="upload-buttons">
                                     <input type="file" id="camera-files" multiple accept="image/*" hidden>
                                     <input type="file" id="camera-folder" webkitdirectory directory multiple hidden>
+                                    <input type="file" id="camera-photos" multiple accept="image/*" capture="environment" hidden>
+                                    <button class="upload-btn native-btn" onclick="app.showPhotoAccessGuide('camera')">
+                                        <i class="fas fa-photo-video"></i> 如何访问照片库
+                                    </button>
                                     <button class="upload-btn" onclick="document.getElementById('camera-files').click()">
                                         <i class="fas fa-images"></i> 选择文件
                                     </button>
@@ -53,6 +76,10 @@
                                 <div class="upload-buttons">
                                     <input type="file" id="phone-files" multiple accept="image/*" hidden>
                                     <input type="file" id="phone-folder" webkitdirectory directory multiple hidden>
+                                    <input type="file" id="phone-photos" multiple accept="image/*" capture="environment" hidden>
+                                    <button class="upload-btn native-btn" onclick="app.showPhotoAccessGuide('phone')">
+                                        <i class="fas fa-photo-video"></i> 如何访问照片库
+                                    </button>
                                     <button class="upload-btn" onclick="document.getElementById('phone-files').click()">
                                         <i class="fas fa-images"></i> 选择文件
                                     </button>
@@ -200,6 +227,23 @@
                 </div>
             </section>
 
+            <!-- Metadata Section -->
+            <section class="metadata-section" id="metadata-section" style="display: none;">
+                <div class="metadata-container">
+                    <h2><i class="fas fa-database"></i> 元数据管理</h2>
+                    <div class="metadata-info">
+                        <p>已记录 <span id="metadata-count">0</span> 张照片的元数据信息</p>
+                        <button class="action-btn secondary" id="download-metadata-btn">
+                            <i class="fas fa-download"></i> 下载元数据文件
+                        </button>
+                        <button class="action-btn secondary" id="clear-metadata-btn">
+                            <i class="fas fa-trash"></i> 清空记录
+                        </button>
+                    </div>
+                    <div class="metadata-list" id="metadata-list"></div>
+                </div>
+            </section>
+
             <!-- Results Section -->
             <section class="results-section" id="results-section" style="display: none;">
                 <div class="results-container">
@@ -309,6 +353,8 @@
 
     <!-- Load browser-image-compression library -->
     <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js"></script>
+    <!-- Load QR code generation library -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

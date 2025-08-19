@@ -11,20 +11,33 @@
 - 📊 **处理进度**: 实时显示处理进度和日志
 - 💾 **批量下载**: 支持单个或批量下载处理后的照片
 
-## 使用方法
+## 🚀 快速启动
 
-### 1. 启动应用
+### 方法1：一键启动（推荐）
+双击 `PhotoCompress.command` 文件，自动启动服务并显示访问地址。
 
+### 方法2：终端启动
 ```bash
-# 使用Python内置服务器
-python -m http.server 8000
-
-# 或使用Node.js (需要先安装依赖)
-npm install
-npm run serve
+cd PhotoCompress
+./start.sh
 ```
 
-然后在浏览器中访问 `http://localhost:8000`
+### 方法3：手动启动
+```bash
+cd PhotoCompress
+python3 -m http.server 8000 --bind 0.0.0.0
+```
+
+## 📱 多设备使用
+
+### 获取访问地址
+启动后会显示：
+- **Mac访问**: http://localhost:8000
+- **手机访问**: http://你的IP:8000 (例如: http://172.17.17.76:8000)
+
+### 使用步骤
+1. **在手机上**: 访问IP地址，选择照片提取元数据
+2. **在Mac上**: 访问localhost，压缩照片并应用元数据
 
 ### 2. 上传照片
 

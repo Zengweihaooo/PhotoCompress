@@ -49,6 +49,141 @@ body {
     color: #718096;
 }
 
+.device-info {
+    margin-top: 1rem;
+}
+
+.info-card {
+    background: linear-gradient(135deg, rgba(72, 187, 120, 0.1) 0%, rgba(56, 161, 105, 0.1) 100%);
+    border: 2px solid rgba(72, 187, 120, 0.3);
+    border-radius: 10px;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.info-card i {
+    color: #48bb78;
+    font-size: 1.2rem;
+}
+
+.info-card span {
+    color: #2d3748;
+    font-weight: 500;
+}
+
+/* QR Code Section */
+.qr-section {
+    margin-top: 1.5rem;
+}
+
+.qr-container {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 2rem;
+    max-width: 400px;
+    margin: 0 auto;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+}
+
+.qr-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    color: #4a5568;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.qr-header i {
+    color: #667eea;
+    font-size: 1.3rem;
+}
+
+.qr-code {
+    background: white;
+    border-radius: 15px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+}
+
+.qr-code canvas {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.qr-url {
+    color: #718096;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    word-break: break-all;
+    background: rgba(247, 250, 252, 0.8);
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.refresh-qr-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.refresh-qr-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.refresh-qr-btn i {
+    transition: transform 0.3s ease;
+}
+
+.refresh-qr-btn:hover i {
+    transform: rotate(180deg);
+}
+
+.qr-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    color: #718096;
+}
+
+.qr-loading i {
+    font-size: 2rem;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
 /* Main Content */
 .main-content {
     flex: 1;
@@ -219,6 +354,15 @@ section h2 {
 
 .upload-btn.icloud-btn:hover {
     box-shadow: 0 6px 20px rgba(0, 122, 255, 0.4);
+}
+
+.upload-btn.native-btn {
+    background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+}
+
+.upload-btn.native-btn:hover {
+    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
 }
 
 .icloud-hint {
@@ -1099,4 +1243,149 @@ input[type="number"]:focus, select:focus {
     .quick-actions {
         flex-direction: column;
     }
+}
+
+/* Guide Content Styles */
+.guide-content {
+    margin-bottom: 2rem;
+}
+
+.guide-step {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: rgba(247, 250, 252, 0.8);
+    border-radius: 10px;
+    border-left: 4px solid #FF6B35;
+}
+
+.step-icon {
+    font-size: 2rem;
+    width: 60px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.step-text h3 {
+    color: #4a5568;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.step-text p {
+    color: #718096;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.guide-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Photo Access Guide Styles */
+.reality-check {
+    margin-bottom: 2rem;
+}
+
+.info-box {
+    background: rgba(255, 193, 7, 0.1);
+    border: 2px solid rgba(255, 193, 7, 0.3);
+    border-radius: 10px;
+    padding: 1rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.info-box i {
+    color: #ffc107;
+    font-size: 1.2rem;
+    margin-top: 0.1rem;
+    flex-shrink: 0;
+}
+
+.info-box p {
+    color: #856404;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.guide-methods {
+    margin-bottom: 2rem;
+}
+
+.method-card {
+    background: rgba(247, 250, 252, 0.8);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid #667eea;
+    transition: all 0.3s ease;
+}
+
+.method-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.method-card.recommended {
+    border-left-color: #48bb78;
+    background: linear-gradient(135deg, rgba(72, 187, 120, 0.1) 0%, rgba(56, 161, 105, 0.1) 100%);
+}
+
+.method-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.method-header i {
+    color: #667eea;
+    font-size: 1.2rem;
+}
+
+.method-card.recommended .method-header i {
+    color: #48bb78;
+}
+
+.method-header h3 {
+    color: #4a5568;
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.method-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.step {
+    color: #718096;
+    line-height: 1.5;
+    padding: 0.25rem 0;
+}
+
+.step kbd {
+    background: #f7fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    padding: 0.2rem 0.4rem;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    color: #4a5568;
+    margin: 0 0.1rem;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
 }
